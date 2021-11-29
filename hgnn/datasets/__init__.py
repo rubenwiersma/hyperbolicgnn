@@ -1,0 +1,1 @@
+from .synthetic_graphs import SyntheticGraphs
