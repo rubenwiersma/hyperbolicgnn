@@ -114,3 +114,13 @@ class LorentzManifold(Manifold):
 
     def dist(self, x, y):
         return torch.arccosh(-self.scalar_product(x, y))
+
+    def nonlin_mapping(self, x, nonlin):
+        # Map from Lorentz to Poincare ball
+        x_poincare = x[..., 1:] / (x[..., 0:1] + 1)
+        # Apply non-linearity
+        x_nonlin = nonlin(x_poincare)
+        # Map from Poincare ball to Lorentz
+        squared_norm_x = dot(x_nonlin, x_nonlin)
+        x_lorentz = torch.cat([1 + squared_norm_x, 2 * x_nonlin[..., 1:]], dim=-1)
+        return x_lorentz / (1 - squared_norm_x).clip(EPS)
