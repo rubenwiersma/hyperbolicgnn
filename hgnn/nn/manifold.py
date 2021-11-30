@@ -38,14 +38,10 @@ class EuclideanManifold(Manifold):
         super().__init__('Euclidean')
 
     def log(self, y, x=None):
-        if x is None:
-            x = torch.zeros_like(y)
-        return y - x
+        return y if x is None else y - x
 
     def exp(self, v, x=None):
-        if x is None:
-            x = torch.zeros_like(v)
-        return v + x
+        return v if x is None else v + x
 
     def parallel_transport(self, v, x):
         return v - x
@@ -67,17 +63,25 @@ class PoincareBallManifold(Manifold):
         denominator = 1 + 2 * x_dot_y + x_norm_squared * y_norm_squared
         return numerator / denominator
 
+    def lambda_func(self, x):
+        return 2 / (1 - dot(x, x))
+
     def log(self, y, x=None):
         if x is None:
-            x = torch.zeros_like(y)
-        norm_y = torch.linalg.norm(y, dim=-1, keepdim=True)
-        return torch.arctanh(norm_y) * (y / norm_y.clip(EPS))
+            norm_y = torch.linalg.norm(y, dim=-1, keepdim=True)
+            return torch.arctanh(norm_y) * (y / norm_y.clip(EPS))
+        lambda_x = self.lambda_func(x)
+        x_plus_y = - self.mobius_add(x, y)
+        norm_x_plus_y = torch.linalg.norm(x_plus_y, dim=-1, keepdim=True)
+        return 2 / lambda_x * torch.arctanh(norm_x_plus_y) * (x_plus_y / norm_x_plus_y.clip(EPS))
 
     def exp(self, v, x=None):
         if x is None:
-            x = torch.zeros_like(v)
+            norm_v = torch.linalg.norm(v, dim=-1, keepdim=True)
+            return torch.tanh(norm_v) * (v / norm_v.clip(EPS))
+        lambda_x = self.lambda_func(x)
         norm_v = torch.linalg.norm(v, dim=-1, keepdim=True)
-        return torch.tanh(norm_v) * (v / norm_v.clip(EPS))
+        return self.mobius_add(x, torch.tanh(lambda_x * norm_v / 2) * (v / norm_v.clip(EPS)))
 
     def parallel_transport(self, v, x):
         return NotImplementedError
