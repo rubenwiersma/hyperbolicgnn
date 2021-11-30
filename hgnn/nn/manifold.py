@@ -1,10 +1,10 @@
 import abc
 import torch
-from util import dot
+from ..util import dot
 
 EPS = 1e-5
 
-class Manifold(abc):
+class Manifold(abc.ABC):
     r""" Abstract base class for a Manifold.
     """
 
@@ -97,8 +97,7 @@ class LorentzManifold(Manifold):
         super().__init__('Lorentz')
 
     def scalar_product(self, x, y, keepdim=True):
-        res = -(x[..., 0:1] * y[..., 0:1]) + (x[..., 1:] * y[..., 1:]).sum(dim=-1, keepdim=True)
-        return res if keepdim else res.squeeze(-1)
+        return -(x[..., 0:1] * y[..., 0:1]) + (x[..., 1:] * y[..., 1:]).sum(dim=-1, keepdim=True)
 
     def log(self, y, x=None):
         if x is None:
@@ -109,7 +108,6 @@ class LorentzManifold(Manifold):
     def exp(self, v, x=None):
         if x is None:
             x = torch.zeros_like(v)
-            x[..., 0] = 1
         lorentz_norm_v = torch.sqrt(self.scalar_product(v, v))
         return torch.cosh(lorentz_norm_v) * x + torch.sinh(lorentz_norm_v) * (v / lorentz_norm_v.clip(EPS))
 

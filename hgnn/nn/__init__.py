@@ -1,2 +1,2 @@
-from .hgcn_conv import HGCNConv
+from .manifold_conv import ManifoldConv
 from .manifold import *

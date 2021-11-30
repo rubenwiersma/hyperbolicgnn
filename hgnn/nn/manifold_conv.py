@@ -13,7 +13,7 @@ class ManifoldConv(torch.nn.Module):
     it will use this mapping to apply the non-linearity.
     """
 
-    def __init__(self, conv: Callable, manifold: Manifold = EuclideanManifold, nonlin=torch.nn.ReLU):
+    def __init__(self, conv: Callable, manifold: Manifold=EuclideanManifold(), nonlin=torch.nn.ReLU()):
         super(self, ManifoldConv).__init__()
         self.conv = conv
         self.nonlin = nonlin

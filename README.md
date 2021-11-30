@@ -8,4 +8,4 @@ Version numbers show tested version. Some dependencies can be lower.
 - Pyg 2.0.2
 
 ## How to start
-- Run train_synthetic.py
+- Run `python train_synthetic.py` in the folder experiments.

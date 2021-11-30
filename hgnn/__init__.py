@@ -2,6 +2,6 @@
 
 from . import datasets
 from . import nn
-from util import *
+from .util import *
 
 __version__ = (0, 1)
