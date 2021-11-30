@@ -1,5 +1,5 @@
 import torch
-from torch_geometric.utils import from_networkx
+from torch_geometric.utils import from_networkx, degree
 from torch_geometric.data import InMemoryDataset
 
 import numpy as np
@@ -48,6 +48,8 @@ class SyntheticGraphs(InMemoryDataset):
             graph = from_networkx(nx.erdos_renyi_graph(num_node, np.random.uniform(0.01, 1)))
             graph.y = 0
             data_list.append(graph)
+            if i % 100 == 0:
+                print('{}/{}'.format(i, num_graphs))
 
         print("small_world")
         for i in range(num_graphs):
@@ -55,6 +57,8 @@ class SyntheticGraphs(InMemoryDataset):
             graph = from_networkx(nx.watts_strogatz_graph(num_node, np.random.randint(low=1, high=200), np.random.uniform(0.01, 1)))
             graph.y = 1
             data_list.append(graph)
+            if i % 100 == 0:
+                print('{}/{}'.format(i, num_graphs))
 
         print("barabasi_albert")
         for i in range(num_graphs):
@@ -62,6 +66,13 @@ class SyntheticGraphs(InMemoryDataset):
             graph = from_networkx(nx.barabasi_albert_graph(num_node, np.random.randint(low=1, high=200)))
             graph.y = 2
             data_list.append(graph)
+            if i % 100 == 0:
+                print('{}/{}'.format(i, num_graphs))
+
+        if self.pre_filter is not None:
+            data_list = [d for d in data_list if self.pre_filter(d)]
+
+        if self.pre_transform is not None:
+            data_list = [self.pre_transform(d) for d in data_list]
 
         return self.collate(data_list)
-

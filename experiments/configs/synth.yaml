@@ -1,11 +1,13 @@
 # Hyperbolic GNN parameters
 in_features: 1000
 embed_dim: 5
+num_layers: 5
+num_class: 3
 num_centroid: 100
 manifold: 'Euclidean'
 
 # Training parameters
-batch_size: 32
+batch_size: 1
 epochs: 80
 lr: 0.01
 weight_decay: 0
@@ -13,6 +15,6 @@ weight_decay: 0
 # Dataset parameters
 node_num_min: 200
 node_num_max: 500
-num_train: 2000
-num_val: 2000
-num_test: 2000
+num_train: 200
+num_val: 200
+num_test: 10

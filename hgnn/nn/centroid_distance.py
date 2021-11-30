@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch_geometric.nn import global_mean_pool
-from manifold import Manifold, EuclideanManifold
+from .manifold import Manifold, EuclideanManifold
 
 
 class CentroidDistance(nn.Module):
@@ -17,7 +17,7 @@ class CentroidDistance(nn.Module):
 
     def forward(self, x, batch=None):
         if batch is None:
-            batch = x.new_zeros(x.size(0))
+            batch = x.new_zeros(x.size(0)).long()
         num_nodes = x.size(0)
         x = x.unsqueeze(1).expand(-1, self.num_centroid, -1).contiguous().view(-1, self.embed_dim)
         centroids = self.centroid_embedding(torch.arange(self.num_centroid, device=x.device))

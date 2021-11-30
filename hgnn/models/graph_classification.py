@@ -12,6 +12,7 @@ class GraphClassification(nn.Module):
     """
 
     def __init__(self, args, manifold: Manifold = EuclideanManifold()):
+        super(GraphClassification, self).__init__()
         self.manifold = manifold
 
         self.embedding = nn.Linear(args.in_features, args.embed_dim, bias=False)

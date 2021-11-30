@@ -29,6 +29,7 @@ setuptools.setup(
         'argparse',
         'yaml',
         'networkx',
-        'easydict'
+        'easydict',
+        'tensorboard'
     ],
 )

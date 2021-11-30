@@ -1,4 +1,7 @@
+import sys
 import os, os.path as osp
+sys.path.append(os.getcwd())
+
 import time
 import warnings
 
@@ -12,24 +15,26 @@ from torch import optim
 from torch.utils.tensorboard import SummaryWriter
 
 from torch_geometric.loader import DataLoader
+from torch_geometric.transforms import OneHotDegree
 from hgnn.datasets import SyntheticGraphs
 from hgnn.models import GraphClassification
 from hgnn.nn.manifold import EuclideanManifold, PoincareBallManifold, LorentzManifold
 
 def train(args):
     dataset_root = osp.join(osp.dirname(osp.realpath(__file__)), 'data/SyntheticGraphs')
-    train_dataset = SyntheticGraphs(dataset_root, split='train', node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val,  num_test=args.num_test)
-    val_dataset = SyntheticGraphs(dataset_root, split='val', node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val, num_test=args.num_test)
+    pre_transform = OneHotDegree(args.in_features - 1, cat=False)
+    train_dataset = SyntheticGraphs(dataset_root, split='train', pre_transform=pre_transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val,  num_test=args.num_test)
+    val_dataset = SyntheticGraphs(dataset_root, split='val', pre_transform=pre_transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val, num_test=args.num_test)
 
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=True)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, drop_last=False)
 
     if args.manifold == 'Euclidean':
-        manifold = EuclideanManifold
+        manifold = EuclideanManifold()
     elif args.manifold == 'Poincare':
-        manifold = PoincareBallManifold
+        manifold = PoincareBallManifold()
     elif args.manifold == 'Lorentz':
-        manifold = LorentzManifold
+        manifold = LorentzManifold()
     else:
         manifold = EuclideanManifold
         warnings.warn('No valid manifold was given as input, using Euclidean as default')
@@ -75,13 +80,13 @@ if __name__ == "__main__":
     file_dir = osp.dirname(osp.realpath(__file__))
 
     # Parse arguments from command line
-    parser = argparse.ArgumentParse('Synthetic Graph classification with Hyperbolic GNNs')
+    parser = argparse.ArgumentParser('Synthetic Graph classification with Hyperbolic GNNs')
     parser.add_argument('--config', type=str, default=osp.join(file_dir, 'configs/synth.yaml'), help='config file')
     terminal_args = parser.parse_args()
 
     # Parse arguments from config file
     with open(terminal_args.config) as f:
-        args = edict(yaml.load(f, Loader=yaml.BaseLoader))
+        args = edict(yaml.load(f, Loader=yaml.FullLoader))
 
     # Additional arguments
     args.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
