@@ -30,6 +30,7 @@ setuptools.setup(
         'yaml',
         'networkx',
         'easydict',
-        'tensorboard'
+        'tensorboard',
+        'progressbar2'
     ],
 )

@@ -1,9 +1,9 @@
 import sys
 import os, os.path as osp
 sys.path.append(os.getcwd())
-
 import time
 import warnings
+from progressbar import progressbar
 
 import yaml
 from easydict import EasyDict as edict
@@ -26,7 +26,7 @@ def train(args):
     train_dataset = SyntheticGraphs(dataset_root, split='train', pre_transform=pre_transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val,  num_test=args.num_test)
     val_dataset = SyntheticGraphs(dataset_root, split='val', pre_transform=pre_transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val, num_test=args.num_test)
 
-    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=True)
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=False)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, drop_last=False)
 
     if args.manifold == 'Euclidean':
@@ -49,7 +49,7 @@ def train(args):
         model.train()
 
         total_loss = 0
-        for data in train_loader:
+        for data in progressbar(train_loader):
             data = data.to(args.device)
             optimizer.zero_grad()
             out = model(data)
