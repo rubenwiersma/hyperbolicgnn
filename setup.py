@@ -25,6 +25,10 @@ setuptools.setup(
     install_requires=[
         'numpy',
         'pytorch',
-        'pyg'
+        'pyg',
+        'argparse',
+        'yaml',
+        'networkx',
+        'easydict'
     ],
 )

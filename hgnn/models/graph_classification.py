@@ -7,6 +7,9 @@ from ..nn import Manifold, ManifoldConv, EuclideanManifold
 
 
 class GraphClassification(nn.Module):
+    r"""
+    Graph classification network based on Hyperbolic GNN paper.
+    """
 
     def __init__(self, args, manifold: Manifold = EuclideanManifold()):
         self.manifold = manifold
