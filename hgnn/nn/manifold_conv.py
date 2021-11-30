@@ -14,7 +14,7 @@ class ManifoldConv(torch.nn.Module):
     """
 
     def __init__(self, conv: Callable, manifold: Manifold=EuclideanManifold(), nonlin=torch.nn.ReLU()):
-        super(self, ManifoldConv).__init__()
+        super(ManifoldConv, self).__init__()
         self.conv = conv
         self.nonlin = nonlin
         self.manifold = manifold
