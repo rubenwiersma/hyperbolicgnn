@@ -10,8 +10,6 @@ from easydict import EasyDict as edict
 import argparse
 
 import torch
-from torch import optim
-
 from torch.utils.tensorboard import SummaryWriter
 
 from torch_geometric.loader import DataLoader
@@ -41,7 +39,7 @@ def train(args):
     model = GraphClassification(args, manifold).to(args.device)
 
     # TODO add optimizer for hyperbolic parameters
-    optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, amsgrad=args.optimizer == 'amsgrad', weight_decay=args.weight_decay)
     loss_function = torch.nn.CrossEntropyLoss(reduction='sum')
 
     best_accuracy = 0
@@ -55,6 +53,10 @@ def train(args):
             out = model(data)
             loss = loss_function(out, data.y)
             loss.backward()
+
+            if args.grad_clip > 0:
+                torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
+
             total_loss += loss.item() * data.num_graphs
             optimizer.step()
         val_acc = evaluate(args, model, val_loader)

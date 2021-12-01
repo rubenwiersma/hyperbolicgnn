@@ -16,12 +16,12 @@ class GraphClassification(nn.Module):
         self.manifold = manifold
 
         self.embedding = nn.Linear(args.in_features, args.embed_dim, bias=False)
-        manifold.init_embed(self.embedding)
+        nn.init.xavier_uniform_(self.embedding.weight.data)
 
         self.layers = torch.nn.ModuleList()
         for _ in range(args.num_layers):
             conv = GCNConv(args.embed_dim, args.embed_dim)
-            self.layers.append(ManifoldConv(conv, manifold))
+            self.layers.append(ManifoldConv(conv, manifold, dropout=args.dropout))
 
         self.centroid_distance = CentroidDistance(args.num_centroid, args.embed_dim, manifold)
 
@@ -32,7 +32,7 @@ class GraphClassification(nn.Module):
     def forward(self, data):
         x = data.x
         edge_index = data.edge_index
-        x = self.manifold.log(self.embedding(x))
+        x = self.embedding(x)
         for layer in self.layers:
             x = layer(x, edge_index)
         centroid_dist = self.centroid_distance(x)

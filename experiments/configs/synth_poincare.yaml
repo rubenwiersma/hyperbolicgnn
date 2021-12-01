@@ -4,13 +4,16 @@ embed_dim: 5
 num_layers: 5
 num_class: 3
 num_centroid: 100
-manifold: 'Euclidean'
+manifold: 'Poincare'
 
 # Training parameters
-batch_size: 1
-epochs: 80
+optimizer: 'adam'
 lr: 0.01
 weight_decay: 0
+grad_clip: 1
+dropout: 0
+batch_size: 1
+epochs: 80
 
 # Dataset parameters
 node_num_min: 200
