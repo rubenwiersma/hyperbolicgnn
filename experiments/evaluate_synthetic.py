@@ -39,6 +39,9 @@ def test(args):
 
     test_acc, test_f1 = evaluate(args, model, test_loader)
     print('Test accuracy {:.4f}, f1 score {:.4f}'.format(test_acc, test_f1))
+    if args.csv_file is not None:
+        with open(args.csv_file, "a") as f:
+            f.write('{}, {}, {:.4f}, {:.4f}\n'.format(args.manifold, args.embed_dim, test_acc, test_f1))
 
 def evaluate(args, model, data_loader):
     model.eval()
@@ -66,6 +69,7 @@ if __name__ == "__main__":
     parser.add_argument('--embed_dim', type=int, help='dimension for embedding')
     parser.add_argument('--log_timestamp', type=str, help='timestamp used for the log directory where the checkpoint is located')
     parser.add_argument('--seed', type=int, default=42, help='random seed')
+    parser.add_argument('--csv_file', type=str, help='csv file to output results')
     terminal_args = parser.parse_args()
 
     # Parse arguments from config file
@@ -75,11 +79,20 @@ if __name__ == "__main__":
     # Additional arguments
     if terminal_args.embed_dim is not None:
         args.embed_dim = terminal_args.embed_dim
-
-    # Additional arguments
     args.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     experiment_name = 'hgnn_{}_dim{}'.format(args.manifold, args.embed_dim)
     args.checkpoint = osp.join(file_dir, 'logs', experiment_name, terminal_args.log_timestamp, 'best.pt')
+
+    # Create csv file for output
+    args.csv_file = None
+    if terminal_args.csv_file is not None:
+        output_dir = osp.join(file_dir, 'output')
+        if not osp.exists(output_dir):
+            os.makedirs(output_dir)
+        args.csv_file = osp.join(output_dir, terminal_args.csv_file)
+        if not osp.isfile(args.csv_file):
+            with open(args.csv_file, "w") as f:
+                f.write('manifold, dimensions, accuracy, f1\n')
 
     # Manual seed
     torch.manual_seed(terminal_args.seed)

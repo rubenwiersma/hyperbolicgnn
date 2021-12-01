@@ -107,7 +107,7 @@ if __name__ == "__main__":
     if terminal_args.log_timestamp is not None:
         run_time = terminal_args.log_timestamp
     args.logdir = osp.join(file_dir, 'logs', experiment_name, run_time)
-    if not os.path.exists(args.logdir):
+    if not osp.exists(args.logdir):
         os.makedirs(args.logdir)
 
     # Setup tensorboard writer
