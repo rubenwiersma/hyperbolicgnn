@@ -53,7 +53,7 @@ def evaluate(args, model, data_loader):
         pred_list.append(pred.cpu().item())
         true_list.append(data.y.cpu().item())
     accuracy = correct / len(data_loader.dataset)
-    f1 = f1_score(true_list, pred_list)
+    f1 = f1_score(true_list, pred_list, average="macro")
     return accuracy, f1
 
 

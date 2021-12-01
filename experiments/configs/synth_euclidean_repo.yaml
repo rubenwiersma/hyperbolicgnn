@@ -1,17 +1,17 @@
 # Hyperbolic GNN parameters
 in_features: 1000
 embed_dim: 5
-num_layers: 5
+num_layers: 8
 num_class: 3
-num_centroid: 100
+num_centroid: 2000
 manifold: 'euclidean'
 
 # Training parameters
-optimizer: 'adam'
-lr: 0.01
-weight_decay: 0
-grad_clip: 1
-dropout: 0
+optimizer: 'amsgrad'
+lr: 0.005
+weight_decay: 0.00005
+grad_clip: 5
+dropout: 0.6
 batch_size: 1
 epochs: 80
 
