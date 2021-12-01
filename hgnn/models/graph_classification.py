@@ -19,14 +19,16 @@ class GraphClassification(nn.Module):
         nn.init.xavier_uniform_(self.embedding.weight.data)
 
         self.layers = torch.nn.ModuleList()
-        for _ in range(args.num_layers):
-            conv = GCNConv(args.embed_dim, args.embed_dim)
-            self.layers.append(ManifoldConv(conv, manifold, dropout=args.dropout))
+        for i in range(args.num_layers):
+            conv = GCNConv(args.embed_dim, args.embed_dim, bias=False)
+            nn.init.xavier_uniform_(conv.lin.weight.data)
+            self.layers.append(ManifoldConv(conv, manifold, dropout=args.dropout, from_euclidean=i == 0))
 
         self.centroid_distance = CentroidDistance(args.num_centroid, args.embed_dim, manifold)
 
         self.output_linear = nn.Linear(args.num_centroid, args.num_class)
         nn.init.xavier_uniform_(self.output_linear.weight.data)
+        nn.init.uniform_(self.output_linear.bias.data, -1e-4, 1e-4)
 
 
     def forward(self, data):

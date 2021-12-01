@@ -4,7 +4,7 @@ embed_dim: 5
 num_layers: 5
 num_class: 3
 num_centroid: 100
-manifold: 'poincare'
+manifold: 'lorentz'
 
 # Training parameters
 optimizer: 'adam'

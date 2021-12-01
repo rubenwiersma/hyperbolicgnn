@@ -27,14 +27,14 @@ def train(args):
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=False)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, drop_last=False)
 
-    if args.manifold == 'Euclidean':
+    if args.manifold == 'euclidean':
         manifold = EuclideanManifold()
-    elif args.manifold == 'Poincare':
+    elif args.manifold == 'poincare':
         manifold = PoincareBallManifold()
-    elif args.manifold == 'Lorentz':
+    elif args.manifold == 'lorentz':
         manifold = LorentzManifold()
     else:
-        manifold = EuclideanManifold
+        manifold = EuclideanManifold()
         warnings.warn('No valid manifold was given as input, using Euclidean as default')
     model = GraphClassification(args, manifold).to(args.device)
 
@@ -42,16 +42,16 @@ def train(args):
     loss_function = torch.nn.CrossEntropyLoss(reduction='sum')
 
     best_accuracy = 0
-    for epoch in progressbar(range(args.epochs)):
+    for epoch in progressbar(range(args.epochs), redirect_stdout=True):
         model.train()
 
         total_loss = 0
         for data in train_loader:
+            model.zero_grad()
             data = data.to(args.device)
-            optimizer.zero_grad()
             out = model(data)
             loss = loss_function(out, data.y)
-            loss.backward()
+            loss.backward(retain_graph=True)
 
             if args.grad_clip > 0:
                 torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
@@ -59,10 +59,12 @@ def train(args):
             total_loss += loss.item() * data.num_graphs
             optimizer.step()
         val_acc = evaluate(args, model, val_loader)
+        train_loss = total_loss / len(train_loader)
+        print('Epoch {:n} - training loss {:.3f}, validation accuracy {:.3f}'.format(epoch, train_loss, val_acc))
         if val_acc > best_accuracy:
             torch.save(model.state_dict(), osp.join(args.logdir, 'best.pt'))
             best_accuracy = val_acc
-        args.writer.add_scalar('training loss', total_loss, epoch)
+        args.writer.add_scalar('training loss', train_loss, epoch)
         args.writer.add_scalar('validation accuracy', val_acc, epoch)
 
 

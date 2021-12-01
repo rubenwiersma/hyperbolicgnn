@@ -1,10 +1,10 @@
 # Hyperbolic GNN parameters
 in_features: 1000
-embed_dim: 3
-num_layers: 3
+embed_dim: 5
+num_layers: 8
 num_class: 3
 num_centroid: 2000
-manifold: 'Euclidean'
+manifold: 'euclidean'
 
 # Training parameters
 optimizer: 'amsgrad'
