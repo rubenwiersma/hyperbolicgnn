@@ -6,7 +6,8 @@ Replication of Hyperbolic GNNs for Efficient Deep Learning winterschool.
 Version numbers show tested version. Some dependencies can be lower.
 - PyTorch 1.10
 - Pyg 2.0.2
-- Networkx (to generate graphs)
+
+The upper two are easiest to install with conda. Install the other requirements using the `requirements.txt` file.
 
 ## How to start
-- Run `python train_synthetic.py` in the folder experiments.
+- Run `python experiments/train_synthetic.py` from the root folder.

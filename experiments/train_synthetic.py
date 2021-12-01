@@ -85,6 +85,7 @@ if __name__ == "__main__":
     # Parse arguments from command line
     parser = argparse.ArgumentParser('Synthetic Graph classification with Hyperbolic GNNs')
     parser.add_argument('--config', type=str, default=osp.join(file_dir, 'configs/synth_euclidean.yaml'), help='config file')
+    parser.add_argument('--embed_dim', type=int, help='dimension for embedding')
     terminal_args = parser.parse_args()
 
     # Parse arguments from config file
@@ -93,6 +94,8 @@ if __name__ == "__main__":
 
     # Additional arguments
     args.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    if terminal_args.embed_dim is not None:
+        args.embed_dim = terminal_args.embed_dim
 
     # Create log directory
     experiment_name = 'hgnn_{}_dim{}'.format(args.manifold, args.embed_dim)
