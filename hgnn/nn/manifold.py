@@ -172,7 +172,7 @@ class LorentzScalarProduct(Function):
     @staticmethod
     def backward(ctx, g):
         x, y = ctx.saved_tensors
-        g = g.unsqueeze(-1).expand_as(u).clone()
+        g = g.expand_as(x).clone()
         g.narrow(-1, 0, 1).mul_(-1)
         return g * y, g * x
 
