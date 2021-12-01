@@ -1,7 +1,7 @@
 # Hyperbolic GNN parameters
 in_features: 1000
-embed_dim: 5
-num_layers: 8
+embed_dim: 3
+num_layers: 3
 num_class: 3
 num_centroid: 2000
 manifold: 'Euclidean'
@@ -19,5 +19,5 @@ epochs: 80
 node_num_min: 100
 node_num_max: 500
 num_train: 200
-num_val: 200
-num_test: 10
+num_val: 50
+num_test: 50

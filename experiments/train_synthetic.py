@@ -38,7 +38,6 @@ def train(args):
         warnings.warn('No valid manifold was given as input, using Euclidean as default')
     model = GraphClassification(args, manifold).to(args.device)
 
-    # TODO add optimizer for hyperbolic parameters
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, amsgrad=args.optimizer == 'amsgrad', weight_decay=args.weight_decay)
     loss_function = torch.nn.CrossEntropyLoss(reduction='sum')
 

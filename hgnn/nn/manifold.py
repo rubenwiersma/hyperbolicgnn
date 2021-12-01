@@ -58,7 +58,7 @@ class EuclideanManifold(Manifold):
         return v - x
 
     def dist(self, x, y):
-        return torch.linalg.norm(x - y, dim=-1)
+        return torch.linalg.norm(x - y, dim=-1, keepdim=True)
 
 
 class PoincareBallManifold(Manifold):

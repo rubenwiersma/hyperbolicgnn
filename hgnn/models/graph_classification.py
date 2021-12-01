@@ -35,5 +35,5 @@ class GraphClassification(nn.Module):
         x = self.embedding(x)
         for layer in self.layers:
             x = layer(x, edge_index)
-        centroid_dist = self.centroid_distance(x)
+        centroid_dist = self.centroid_distance(x, batch=data.batch)
         return self.output_linear(centroid_dist)

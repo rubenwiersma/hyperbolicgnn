@@ -18,6 +18,6 @@ epochs: 80
 # Dataset parameters
 node_num_min: 100
 node_num_max: 500
-num_train: 200
-num_val: 200
-num_test: 10
+num_train: 500
+num_val: 500
+num_test: 500

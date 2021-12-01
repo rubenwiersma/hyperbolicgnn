@@ -1,3 +1,4 @@
+import os.path as osp
 import torch
 from torch_geometric.utils import from_networkx, degree
 from torch_geometric.data import InMemoryDataset
@@ -48,25 +49,26 @@ class SyntheticGraphs(InMemoryDataset):
             graph = from_networkx(nx.erdos_renyi_graph(num_node, np.random.uniform(0.1, 1)))
             graph.y = 0
             data_list.append(graph)
-            if i % 100 == 0:
+            if i % 500 == 0:
                 print('{}/{}'.format(i, num_graphs))
 
         print("small_world")
         for i in range(num_graphs):
             num_node = np.random.randint(*self.node_num)
-            graph = from_networkx(nx.watts_strogatz_graph(num_node, np.random.randint(low=1, high=100), np.random.uniform(0.1, 1)))
+            graph = from_networkx(nx.watts_strogatz_graph(num_node, np.random.randint(low=2, high=100), np.random.uniform(0.1, 1)))
             graph.y = 1
             data_list.append(graph)
-            if i % 100 == 0:
+            if i % 500 == 0:
                 print('{}/{}'.format(i, num_graphs))
+
 
         print("barabasi_albert")
         for i in range(num_graphs):
             num_node = np.random.randint(*self.node_num)
-            graph = from_networkx(nx.barabasi_albert_graph(num_node, np.random.randint(low=1, high=100)))
+            graph = from_networkx(nx.barabasi_albert_graph(num_node, np.random.randint(low=2, high=100)))
             graph.y = 2
             data_list.append(graph)
-            if i % 100 == 0:
+            if i % 500 == 0:
                 print('{}/{}'.format(i, num_graphs))
 
         if self.pre_filter is not None:
