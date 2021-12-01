@@ -45,7 +45,7 @@ class SyntheticGraphs(InMemoryDataset):
         data_list = []
         for i in range(num_graphs):
             num_node = np.random.randint(*self.node_num)
-            graph = from_networkx(nx.erdos_renyi_graph(num_node, np.random.uniform(0.01, 1)))
+            graph = from_networkx(nx.erdos_renyi_graph(num_node, np.random.uniform(0.1, 1)))
             graph.y = 0
             data_list.append(graph)
             if i % 100 == 0:
@@ -54,7 +54,7 @@ class SyntheticGraphs(InMemoryDataset):
         print("small_world")
         for i in range(num_graphs):
             num_node = np.random.randint(*self.node_num)
-            graph = from_networkx(nx.watts_strogatz_graph(num_node, np.random.randint(low=1, high=200), np.random.uniform(0.01, 1)))
+            graph = from_networkx(nx.watts_strogatz_graph(num_node, np.random.randint(low=1, high=100), np.random.uniform(0.1, 1)))
             graph.y = 1
             data_list.append(graph)
             if i % 100 == 0:
@@ -63,7 +63,7 @@ class SyntheticGraphs(InMemoryDataset):
         print("barabasi_albert")
         for i in range(num_graphs):
             num_node = np.random.randint(*self.node_num)
-            graph = from_networkx(nx.barabasi_albert_graph(num_node, np.random.randint(low=1, high=200)))
+            graph = from_networkx(nx.barabasi_albert_graph(num_node, np.random.randint(low=1, high=100)))
             graph.y = 2
             data_list.append(graph)
             if i % 100 == 0:

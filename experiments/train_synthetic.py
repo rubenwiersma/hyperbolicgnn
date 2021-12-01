@@ -13,14 +13,14 @@ import torch
 from torch.utils.tensorboard import SummaryWriter
 
 from torch_geometric.loader import DataLoader
-from torch_geometric.transforms import OneHotDegree
+from hgnn.transforms import OneHotDegree
 from hgnn.datasets import SyntheticGraphs
 from hgnn.models import GraphClassification
 from hgnn.nn.manifold import EuclideanManifold, PoincareBallManifold, LorentzManifold
 
 def train(args):
     dataset_root = osp.join(osp.dirname(osp.realpath(__file__)), 'data/SyntheticGraphs')
-    pre_transform = OneHotDegree(args.in_features - 1, cat=False)
+    pre_transform = OneHotDegree(args.in_features - 1, sum_in_out_degree=True, cat=False)
     train_dataset = SyntheticGraphs(dataset_root, split='train', pre_transform=pre_transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val,  num_test=args.num_test)
     val_dataset = SyntheticGraphs(dataset_root, split='val', pre_transform=pre_transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val, num_test=args.num_test)
 
@@ -43,11 +43,11 @@ def train(args):
     loss_function = torch.nn.CrossEntropyLoss(reduction='sum')
 
     best_accuracy = 0
-    for epoch in range(args.epochs):
+    for epoch in progressbar(range(args.epochs)):
         model.train()
 
         total_loss = 0
-        for data in progressbar(train_loader):
+        for data in train_loader:
             data = data.to(args.device)
             optimizer.zero_grad()
             out = model(data)
@@ -83,7 +83,7 @@ if __name__ == "__main__":
 
     # Parse arguments from command line
     parser = argparse.ArgumentParser('Synthetic Graph classification with Hyperbolic GNNs')
-    parser.add_argument('--config', type=str, default=osp.join(file_dir, 'configs/synth.yaml'), help='config file')
+    parser.add_argument('--config', type=str, default=osp.join(file_dir, 'configs/synth_euclidean.yaml'), help='config file')
     terminal_args = parser.parse_args()
 
     # Parse arguments from config file
