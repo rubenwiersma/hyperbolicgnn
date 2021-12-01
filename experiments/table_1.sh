@@ -1,17 +1,17 @@
-python train_synthetic.py --config configs/synth_euclidean.yaml --embed_dims 3
-python train_synthetic.py --config configs/synth_euclidean.yaml --embed_dims 5
-python train_synthetic.py --config configs/synth_euclidean.yaml --embed_dims 10
-python train_synthetic.py --config configs/synth_euclidean.yaml --embed_dims 20
-python train_synthetic.py --config configs/synth_euclidean.yaml --embed_dims 256
+python experiments/train_synthetic.py --config experiments/configs/synth_euclidean.yaml --embed_dim 3
+python experiments/train_synthetic.py --config experiments/configs/synth_euclidean.yaml --embed_dim 5
+python experiments/train_synthetic.py --config experiments/configs/synth_euclidean.yaml --embed_dim 10
+python experiments/train_synthetic.py --config experiments/configs/synth_euclidean.yaml --embed_dim 20
+python experiments/train_synthetic.py --config experiments/configs/synth_euclidean.yaml --embed_dim 256
 
-python train_synthetic.py --config configs/synth_poincare.yaml --embed_dims 3
-python train_synthetic.py --config configs/synth_poincare.yaml --embed_dims 5
-python train_synthetic.py --config configs/synth_poincare.yaml --embed_dims 10
-python train_synthetic.py --config configs/synth_poincare.yaml --embed_dims 20
-python train_synthetic.py --config configs/synth_poincare.yaml --embed_dims 256
+python experiments/train_synthetic.py --config experiments/configs/synth_poincare.yaml --embed_dim 3
+python experiments/train_synthetic.py --config experiments/configs/synth_poincare.yaml --embed_dim 5
+python experiments/train_synthetic.py --config experiments/configs/synth_poincare.yaml --embed_dim 10
+python experiments/train_synthetic.py --config experiments/configs/synth_poincare.yaml --embed_dim 20
+python experiments/train_synthetic.py --config experiments/configs/synth_poincare.yaml --embed_dim 256
 
-python train_synthetic.py --config configs/synth_lorentz.yaml --embed_dims 3
-python train_synthetic.py --config configs/synth_lorentz.yaml --embed_dims 5
-python train_synthetic.py --config configs/synth_lorentz.yaml --embed_dims 10
-python train_synthetic.py --config configs/synth_lorentz.yaml --embed_dims 20
-python train_synthetic.py --config configs/synth_lorentz.yaml --embed_dims 256
+python experiments/train_synthetic.py --config experiments/configs/synth_lorentz.yaml --embed_dim 3
+python experiments/train_synthetic.py --config experiments/configs/synth_lorentz.yaml --embed_dim 5
+python experiments/train_synthetic.py --config experiments/configs/synth_lorentz.yaml --embed_dim 10
+python experiments/train_synthetic.py --config experiments/configs/synth_lorentz.yaml --embed_dim 20
+python experiments/train_synthetic.py --config experiments/configs/synth_lorentz.yaml --embed_dim 256
