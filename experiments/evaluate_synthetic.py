@@ -63,7 +63,8 @@ if __name__ == "__main__":
     # Parse arguments from command line
     parser = argparse.ArgumentParser('Synthetic Graph classification with Hyperbolic GNNs')
     parser.add_argument('--config', type=str, default=osp.join(file_dir, 'configs/synth_euclidean.yaml'), help='config file')
-    parser.add_argument('--checkpoint', type=str, help='checkpoint file to load from')
+    parser.add_argument('--embed_dim', type=int, help='dimension for embedding')
+    parser.add_argument('--log_timestamp', type=str, help='timestamp used for the log directory where the checkpoint is located')
     parser.add_argument('--seed', type=int, default=42, help='random seed')
     terminal_args = parser.parse_args()
 
@@ -72,10 +73,16 @@ if __name__ == "__main__":
         args = edict(yaml.load(f, Loader=yaml.FullLoader))
 
     # Additional arguments
+    if terminal_args.embed_dim is not None:
+        args.embed_dim = terminal_args.embed_dim
+
+    # Additional arguments
     args.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    args.checkpoint = terminal_args.checkpoint
+    experiment_name = 'hgnn_{}_dim{}'.format(args.manifold, args.embed_dim)
+    args.checkpoint = osp.join(file_dir, 'logs', experiment_name, terminal_args.log_timestamp, 'best.pt')
 
     # Manual seed
     torch.manual_seed(terminal_args.seed)
 
+    print('Evaluating {}'.format(experiment_name))
     test(args)

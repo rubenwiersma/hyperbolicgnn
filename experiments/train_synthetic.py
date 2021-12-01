@@ -60,7 +60,8 @@ def train(args):
             optimizer.step()
         val_acc = evaluate(args, model, val_loader)
         train_loss = total_loss / len(train_loader)
-        print('Epoch {:n} - training loss {:.3f}, validation accuracy {:.3f}'.format(epoch, train_loss, val_acc))
+        if args.verbose:
+            print('Epoch {:n} - training loss {:.3f}, validation accuracy {:.3f}'.format(epoch, train_loss, val_acc))
         if val_acc > best_accuracy:
             torch.save(model.state_dict(), osp.join(args.logdir, 'best.pt'))
             best_accuracy = val_acc
@@ -86,6 +87,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser('Synthetic Graph classification with Hyperbolic GNNs')
     parser.add_argument('--config', type=str, default=osp.join(file_dir, 'configs/synth_euclidean.yaml'), help='config file')
     parser.add_argument('--embed_dim', type=int, help='dimension for embedding')
+    parser.add_argument('--log_timestamp', type=str, help='timestamp used to name the log directory')
+    parser.add_argument('--verbose', action='store_true', help='print intermediate scores')
     terminal_args = parser.parse_args()
 
     # Parse arguments from config file
@@ -94,12 +97,15 @@ if __name__ == "__main__":
 
     # Additional arguments
     args.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    args.verbose = terminal_args.verbose
     if terminal_args.embed_dim is not None:
         args.embed_dim = terminal_args.embed_dim
 
     # Create log directory
     experiment_name = 'hgnn_{}_dim{}'.format(args.manifold, args.embed_dim)
     run_time = time.strftime("%d%b%y_%H_%M", time.localtime(time.time()))
+    if terminal_args.log_timestamp is not None:
+        run_time = terminal_args.log_timestamp
     args.logdir = osp.join(file_dir, 'logs', experiment_name, run_time)
     if not os.path.exists(args.logdir):
         os.makedirs(args.logdir)
@@ -110,4 +116,5 @@ if __name__ == "__main__":
     # Manual seed
     torch.manual_seed(42)
 
+    print('Training {}'.format(experiment_name))
     train(args)
