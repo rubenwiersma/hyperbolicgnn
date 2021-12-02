@@ -6,14 +6,15 @@ from .manifold import Manifold, EuclideanManifold
 
 class CentroidDistance(nn.Module):
 
-    def __init__(self, num_centroid, embed_dim, manifold: Manifold = EuclideanManifold()):
+    def __init__(self, num_centroid, embed_dim, manifold: Manifold = EuclideanManifold(), weight_init = None):
         super(CentroidDistance, self).__init__()
         self.num_centroid = num_centroid
         self.embed_dim = embed_dim
         self.manifold = manifold
 
         self.centroid_embedding = nn.Embedding(num_centroid, embed_dim, sparse=False, scale_grad_by_freq=False)
-        # nn.init.xavier_uniform_(self.centroid_embedding.weight.data)
+        if weight_init and weight_init == 'xavier':
+            nn.init.xavier_uniform_(self.centroid_embedding.weight.data)
 
     def forward(self, x, batch=None):
         if batch is None:
