@@ -14,6 +14,7 @@ grad_clip: 1
 dropout: 0
 batch_size: 1
 epochs: 80
+weight_init: 'xavier' # other option 'default' or empty
 
 # Dataset parameters
 node_num_min: 100
