@@ -24,6 +24,8 @@ class ManifoldConv(torch.nn.Module):
     def forward(self, x, *args) -> Tensor:
         x = self.manifold.log(x) if not self.from_euclidean else x
         out = self.conv(x, *args)
+        if self.manifold.name == 'lorentz':
+            out[:, 0] = 0
         out = self.dropout(out)
         out = self.manifold.exp(out)
         if hasattr(self.manifold, 'nonlin_mapping'):

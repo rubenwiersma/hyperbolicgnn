@@ -41,7 +41,7 @@ class Manifold(abc.ABC):
 class EuclideanManifold(Manifold):
 
     def __init__(self, max_norm=1, EPS=1e-8):
-        super().__init__('Euclidean')
+        super().__init__('euclidean')
         self.max_norm = max_norm
         self.EPS = EPS
 
@@ -64,7 +64,7 @@ class EuclideanManifold(Manifold):
 class PoincareBallManifold(Manifold):
 
     def __init__(self, EPS=1e-5):
-        super().__init__('Poincare Ball')
+        super().__init__('poincare')
         self.EPS = EPS
 
     def normalize(self, x):
@@ -112,7 +112,7 @@ class PoincareBallManifold(Manifold):
 class LorentzManifold(Manifold):
 
     def __init__(self, EPS=1e-3, max_norm=1e-3, norm_clip=1):
-        super().__init__('Lorentz')
+        super().__init__('lorentz')
         self.EPS = EPS
         self.max_norm = max_norm
         self.norm_clip = 1
@@ -127,26 +127,27 @@ class LorentzManifold(Manifold):
         return torch.cat((xv / torch.sqrt(1 + dot(x, x)), v[..., 1:]), dim=1)
 
     @staticmethod
-    def scalar_product(x, y):
-        return -(x[..., 0:1] * y[..., 0:1]) + (x[..., 1:] * y[..., 1:]).sum(dim=-1, keepdim=True)
+    def scalar_product(x, y, keepdim=False):
+        xy = x * y
+        return torch.cat([-xy[..., 0:1], xy[..., 1:]], dim=-1).sum(dim=-1, keepdim=keepdim)
 
     def dist(self, x, y):
-        d = -LorentzScalarProduct.apply(x, y)
+        d = -self.scalar_product(x, y) #LorentzScalarProduct.apply(x, y)
         return Acosh.apply(d, self.EPS)
 
     def log(self, y, x=None):
         if x is None:
             x = torch.zeros_like(y)
             x[..., 0] = 1
-        xy = self.scalar_product(x, y)
-        return self.dist(x, y) / torch.sqrt(torch.clamp(xy.pow(2) - 1 + self.EPS, 1e-10)) * (y + xy * x)
+        xy = self.scalar_product(x, y, keepdim=True)
+        return self.dist(x, y).unsqueeze(-1) / torch.sqrt(torch.clamp(xy.pow(2) - 1 + self.EPS, 1e-10)) * (y + xy * x)
 
     def exp(self, v, x=None):
         if x is None:
             x = torch.zeros_like(v)
             x[..., 0] = 1
         v = self.normalize_tan(x, v)
-        lorentz_norm_v = torch.sqrt(torch.clamp(self.scalar_product(v, v) + self.EPS, 1e-10))
+        lorentz_norm_v = torch.sqrt(torch.clamp(self.scalar_product(v, v, keepdim=True) + self.EPS, 1e-10))
         lorentz_norm_v_clipped = torch.clamp(lorentz_norm_v, max=self.norm_clip)
         return self.normalize(torch.cosh(lorentz_norm_v_clipped) * x + torch.sinh(lorentz_norm_v_clipped) * (v / lorentz_norm_v))
 
@@ -172,7 +173,7 @@ class LorentzScalarProduct(Function):
     @staticmethod
     def backward(ctx, g):
         x, y = ctx.saved_tensors
-        g = g.expand_as(x).clone()
+        g = g.unsqueeze(-1).expand_as(x).clone()
         g.narrow(-1, 0, 1).mul_(-1)
         return g * y, g * x
 

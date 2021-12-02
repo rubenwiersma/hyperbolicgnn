@@ -30,6 +30,7 @@ def test(args):
         manifold = PoincareBallManifold()
     elif args.manifold == 'lorentz':
         manifold = LorentzManifold()
+        args.embed_dim += 1
     else:
         manifold = EuclideanManifold()
         warnings.warn('No valid manifold was given as input, using Euclidean as default')
