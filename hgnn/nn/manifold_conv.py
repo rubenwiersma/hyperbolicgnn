@@ -5,12 +5,23 @@ from torch import Tensor
 from .manifold import Manifold, EuclideanManifold
 
 class ManifoldConv(torch.nn.Module):
-    r"""
-    Convolution wrapper for Hyperbolic Graph Neural Networks.
+    r"""Convolution wrapper for Hyperbolic Graph Neural Networks.
     Instantiate this convolution with a Manifold object (e.g.: Euclidean, Poincare Ball, Lorentz) and a convolution module.
     The forward pass will apply the mapping to- and from the Euclidean tangent plane, where the convolution is applied.
     If the manifold requires a mapping to another manifold for non-linearities,
     it will use this mapping to apply the non-linearity.
+
+    Args:
+        conv (callable): Convolution to apply.
+        manifold (Manifold): The manifold used as embedding space.
+            (default: :obj:`EuclideanManifold`)
+        nonlin (callable, optional): Nonlinearity that is applied in the embedding space.
+            (default: :obj:`SELU`)
+        dropout (float, optional): Dropout applied after the convolution and before exponential map.
+            (default: 0)
+        from_euclidean (bool, optional): If set to :obj:`True`, does not apply logarithmic map
+            before applying the convolution.
+            (default: :obj:`False`)
     """
 
     def __init__(self, conv: Callable, manifold: Manifold=EuclideanManifold(), nonlin=torch.nn.SELU(), dropout=0, from_euclidean=False):

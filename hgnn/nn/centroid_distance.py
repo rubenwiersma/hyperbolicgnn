@@ -5,6 +5,18 @@ from .manifold import Manifold, EuclideanManifold
 
 
 class CentroidDistance(nn.Module):
+    r"""Places `num_centroid` centroids in the embedding space and computes the distances
+    to each centroid from all nodes.
+
+    Args:
+        num_centroid (int): Number of centroids to place.
+        embed_dim (int): Dimensionality of the embedding space.
+        manifold (Manifold, optional): Manifold of embedding space.
+            (default: :obj:`EuclideanManifold`)
+        weight_init (str, optional): If set to `xavier`, initializes weights
+            with xavier initialization. Otherwise, uses default initialization for centroid placement.
+            (default: :obj:`None`)
+    """
 
     def __init__(self, num_centroid, embed_dim, manifold: Manifold = EuclideanManifold(), weight_init = None):
         super(CentroidDistance, self).__init__()

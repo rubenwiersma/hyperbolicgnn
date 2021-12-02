@@ -9,6 +9,11 @@ from ..nn import Manifold, ManifoldConv, EuclideanManifold
 class GraphClassification(nn.Module):
     r"""
     Graph classification network based on Hyperbolic GNN paper.
+
+    Args:
+        args (dict): Arguments supplied to network.
+        manifold (Manifold): Manifold to use as embedding space.
+            (default: :obj:`EuclideanManifold`)
     """
 
     def __init__(self, args, manifold: Manifold = EuclideanManifold()):

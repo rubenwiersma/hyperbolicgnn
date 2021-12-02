@@ -1,6 +1,6 @@
 # Hyperbolic GNN replication
 
-Replication of Hyperbolic Graph Neural Networks by Liu, Nickel and Kiela (https://arxiv.org/pdf/1910.12892.pdf) for Efficient Deep Learning winterschool 2021.
+Replication of [Hyperbolic Graph Neural Networks by Liu, Nickel and Kiela](https://arxiv.org/pdf/1910.12892.pdf) for Efficient Deep Learning winterschool 2021.
 
 ## Installation
 You can install the hgnn package either in your python environment:
@@ -17,3 +17,6 @@ To run all experiments for Table 1 in the paper, run
 ```
 $ sh experiments/table_1.sh
 ```
+
+## Credits
+Network architecture and manifold mappings based on [Hyperbolic GNN implementation by the authors](https://github.com/facebookresearch/hgnn). Transforms and dataset built on [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric).

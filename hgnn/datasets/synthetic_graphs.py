@@ -7,9 +7,40 @@ import numpy as np
 import networkx as nx
 
 class SyntheticGraphs(InMemoryDataset):
+    r"""Synthetic graph dataset from the `"Hyperbolic Graph Neural networks"
+    <https://arxiv.org/pdf/1910.12892.pdf>` paper, containing graphs generated with
+    Erdos-Renyi, Watts-Strogatz, and Barabasi-Albert graph generation algorithms.
+    Each graph is labelled with the algorithm that was used to generate the graph (0, 1, 2)
+    and contains 100-500 nodes by default.
+
+    Args:
+        root (str): Root folder of the dataset.
+        split (str, optional): Whether to use the train, val, or test split.
+            (default: 'train') 
+        node_num (tuple, optional): The range used to determine the number of nodes in each graph.
+            (default: :obj:`(100, 200)`)
+        num_train (int, optional): The number of graphs in the train set.
+            (default: 2000)
+        num_val (int, optional): The number of graphs in the validation set.
+            (default: 2000)
+        num_test (int, optional): The number of graphs in the test set.
+            (default: 2000)
+        transform (callable, optional): A function/transform that takes in an
+            :obj:`torch_geometric.data.Data` object and returns a transformed
+            version. The data object will be transformed before every access.
+            (default: :obj:`None`)
+        pre_transform (callable, optional):  A function/transform that takes in an
+            :obj:`torch_geometric.data.Data` object and returns a transformed
+            version. The data object will be transformed during processing.
+            (default: :obj:`None`)
+        pre_filter (callable, optional):  A function/transform that takes in an
+            :obj:`torch_geometric.data.Data` object and returns a filtered
+            version. The data object will be filtered during processing.
+            (default: :obj:`None`)
+    """
 
     def __init__(self, root, split='train',
-                 node_num=(200, 500), num_train=2000, num_test=2000, num_val=2000,
+                 node_num=(100, 500), num_train=2000, num_val=2000, num_test=2000,
                  transform=None, pre_transform=None, pre_filter=None):
         self.node_num = node_num
         self.num_train = num_train
