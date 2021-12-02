@@ -32,10 +32,8 @@ class GraphClassification(nn.Module):
 
 
     def forward(self, data):
-        x = data.x
-        edge_index = data.edge_index
-        x = self.embedding(x)
+        x = self.embedding(data.x)
         for layer in self.layers:
-            x = layer(x, edge_index)
+            x = layer(x, data.edge_index)
         centroid_dist = self.centroid_distance(x, batch=data.batch)
         return self.output_linear(centroid_dist)

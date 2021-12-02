@@ -8,6 +8,8 @@ from progressbar import progressbar
 import yaml
 from easydict import EasyDict as edict
 import argparse
+import numpy as np
+import random
 
 import torch
 from torch.utils.tensorboard import SummaryWriter
@@ -89,6 +91,7 @@ if __name__ == "__main__":
     parser.add_argument('--config', type=str, default=osp.join(file_dir, 'configs/synth_euclidean.yaml'), help='config file')
     parser.add_argument('--embed_dim', type=int, help='dimension for embedding')
     parser.add_argument('--log_timestamp', type=str, help='timestamp used to name the log directory')
+    parser.add_argument('--seed', type=int, default=int(time.time()), help='random seed')
     parser.add_argument('--verbose', action='store_true', help='print intermediate scores')
     terminal_args = parser.parse_args()
 
@@ -114,8 +117,12 @@ if __name__ == "__main__":
     # Setup tensorboard writer
     args.writer = SummaryWriter(args.logdir)
 
-    # Manual seed
-    torch.manual_seed(42)
+    # Set seeds
+    random.seed(terminal_args.seed)
+    np.random.seed(terminal_args.seed)
+    torch.manual_seed(terminal_args.seed)
+    torch.cuda.manual_seed(terminal_args.seed)
+    torch.cuda.manual_seed_all(terminal_args.seed)
 
     print('Training {}'.format(experiment_name))
     train(args)

@@ -111,11 +111,11 @@ class PoincareBallManifold(Manifold):
 
 class LorentzManifold(Manifold):
 
-    def __init__(self, EPS=1e-3, max_norm=1e-3, norm_clip=1):
+    def __init__(self, EPS=1e-3, max_norm=1e3, norm_clip=1):
         super().__init__('lorentz')
         self.EPS = EPS
         self.max_norm = max_norm
-        self.norm_clip = 1
+        self.norm_clip = norm_clip
 
     def normalize(self, x):
         x = torch.renorm(x[:, 1:], 2, 0, self.max_norm)

@@ -12,7 +12,7 @@ class CentroidDistance(nn.Module):
         self.embed_dim = embed_dim
         self.manifold = manifold
 
-        self.centroid_embedding = nn.Embedding(num_centroid, embed_dim)
+        self.centroid_embedding = nn.Embedding(num_centroid, embed_dim, sparse=False, scale_grad_by_freq=False)
         nn.init.xavier_uniform_(self.centroid_embedding.weight.data)
 
     def forward(self, x, batch=None):

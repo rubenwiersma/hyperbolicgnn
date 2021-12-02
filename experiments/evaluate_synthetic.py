@@ -1,12 +1,15 @@
 import sys
 import os, os.path as osp
 sys.path.append(os.getcwd())
+import time
 import warnings
 from progressbar import progressbar
 
 import yaml
 from easydict import EasyDict as edict
 import argparse
+import numpy as np
+import random
 
 import torch
 from sklearn.metrics import f1_score
@@ -69,7 +72,7 @@ if __name__ == "__main__":
     parser.add_argument('--config', type=str, default=osp.join(file_dir, 'configs/synth_euclidean.yaml'), help='config file')
     parser.add_argument('--embed_dim', type=int, help='dimension for embedding')
     parser.add_argument('--log_timestamp', type=str, help='timestamp used for the log directory where the checkpoint is located')
-    parser.add_argument('--seed', type=int, default=42, help='random seed')
+    parser.add_argument('--seed', type=int, default=int(time.time()), help='random seed')
     parser.add_argument('--csv_file', type=str, help='csv file to output results')
     terminal_args = parser.parse_args()
 
@@ -96,7 +99,11 @@ if __name__ == "__main__":
                 f.write('manifold, dimensions, accuracy, f1\n')
 
     # Manual seed
+    random.seed(terminal_args.seed)
+    np.random.seed(terminal_args.seed)
     torch.manual_seed(terminal_args.seed)
+    torch.cuda.manual_seed(terminal_args.seed)
+    torch.cuda.manual_seed_all(terminal_args.seed)
 
     print('Evaluating {}'.format(experiment_name))
     test(args)
