@@ -1,6 +1,4 @@
-import sys
 import os, os.path as osp
-sys.path.append(os.getcwd())
 import time
 import warnings
 from progressbar import progressbar
@@ -23,7 +21,7 @@ from hgnn.nn.manifold import EuclideanManifold, PoincareBallManifold, LorentzMan
 def test(args):
     dataset_root = osp.join(osp.dirname(osp.realpath(__file__)), 'data/SyntheticGraphs')
     pre_transform = OneHotDegree(args.in_features - 1, sum_in_out_degree=True, cat=False)
-    test_dataset = SyntheticGraphs(dataset_root, split='test', pre_transform=pre_transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val, num_test=args.num_test)
+    test_dataset = SyntheticGraphs(dataset_root, split='val', pre_transform=pre_transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val, num_test=args.num_test)
 
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, drop_last=False)
 
@@ -45,7 +43,7 @@ def test(args):
     print('Test accuracy {:.4f}, f1 score {:.4f}'.format(test_acc, test_f1))
     if args.csv_file is not None:
         with open(args.csv_file, "a") as f:
-            f.write('{}, {}, {:.4f}, {:.4f}\n'.format(args.manifold, args.embed_dim, test_acc, test_f1))
+            f.write('{}, {}, {:.4f}, {:.4f}\n'.format(args.manifold, args.embed_dim - 1 * (args.manifold == 'lorentz'), test_acc, test_f1))
 
 def evaluate(args, model, data_loader):
     model.eval()

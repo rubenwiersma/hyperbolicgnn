@@ -1,6 +1,4 @@
-import sys
 import os, os.path as osp
-sys.path.append(os.getcwd())
 import time
 import warnings
 from progressbar import progressbar
