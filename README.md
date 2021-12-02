@@ -7,10 +7,9 @@ You can install the hgnn package either in your python environment:
 ```
 $ pip install ./
 ```
-Or in the current folder with the `-e` flag specified.
+or in the current folder with the `-e` flag specified.
 
 ## How to run
-Run 
 ```
 $ python experiments/train_synthetic.py`
 ```
