@@ -6,6 +6,7 @@ from torch_geometric.data import InMemoryDataset
 import numpy as np
 import networkx as nx
 
+
 class SyntheticGraphs(InMemoryDataset):
     r"""Synthetic graph dataset from the `"Hyperbolic Graph Neural networks"
     <https://arxiv.org/pdf/1910.12892.pdf>` paper, containing graphs generated with

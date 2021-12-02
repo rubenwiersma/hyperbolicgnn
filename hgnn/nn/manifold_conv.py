@@ -4,6 +4,7 @@ from torch import Tensor
 
 from .manifold import Manifold, EuclideanManifold
 
+
 class ManifoldConv(torch.nn.Module):
     r"""Convolution wrapper for Hyperbolic Graph Neural Networks.
     Instantiate this convolution with a Manifold object (e.g.: Euclidean, Poincare Ball, Lorentz) and a convolution module.

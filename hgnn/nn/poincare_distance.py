@@ -11,6 +11,7 @@ import torch.nn as nn
 import numpy as np
 from torch.autograd import Function, Variable
 
+
 class PoincareDistance(Function):
     @staticmethod
     def grad(x, v, sqnormx, sqnormv, sqdist, eps):
