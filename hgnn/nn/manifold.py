@@ -123,8 +123,9 @@ class LorentzManifold(Manifold):
 
     def normalize_tan(self, x, v):
         x = x[..., 1:]
-        xv = torch.sum(x * v[..., 1:], dim=1, keepdim=True)
-        return torch.cat((xv / torch.sqrt(1 + dot(x, x)), v[..., 1:]), dim=1)
+        v = v[..., 1:]
+        xv = torch.sum(x * v, dim=-1, keepdim=True)
+        return torch.cat([xv / torch.sqrt(1 + dot(x, x)), v], dim=1)
 
     @staticmethod
     def scalar_product(x, y, keepdim=False):
@@ -132,7 +133,7 @@ class LorentzManifold(Manifold):
         return torch.cat([-xy[..., 0:1], xy[..., 1:]], dim=-1).sum(dim=-1, keepdim=keepdim)
 
     def dist(self, x, y):
-        d = -self.scalar_product(x, y) #LorentzScalarProduct.apply(x, y)
+        d = -LorentzScalarProduct.apply(x, y)
         return Acosh.apply(d, self.EPS)
 
     def log(self, y, x=None):
@@ -140,7 +141,7 @@ class LorentzManifold(Manifold):
             x = torch.zeros_like(y)
             x[..., 0] = 1
         xy = self.scalar_product(x, y, keepdim=True)
-        return self.dist(x, y).unsqueeze(-1) / torch.sqrt(torch.clamp(xy.pow(2) - 1 + self.EPS, 1e-10)) * (y + xy * x)
+        return Acosh.apply(-xy, self.EPS) / torch.sqrt(torch.clamp(xy.pow(2) - 1 + self.EPS, 1e-10)) * torch.addcmul(y, xy, x)
 
     def exp(self, v, x=None):
         if x is None:

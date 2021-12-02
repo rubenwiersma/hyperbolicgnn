@@ -1,6 +1,6 @@
 # Hyperbolic GNN parameters
 in_features: 1000
-embed_dim: 5
+embed_dim: 3
 num_layers: 5
 num_class: 3
 num_centroid: 100
