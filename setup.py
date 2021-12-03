@@ -24,10 +24,6 @@ setuptools.setup(
     python_requires='>=3.9',
     install_requires=[
         'numpy',
-        'torch',
-        'torch-scatter',
-        'torch-sparse',
-        'torch-geometric',
         'argparse',
         'PyYAML',
         'networkx',
