@@ -31,7 +31,7 @@ The authors do not specify the architecture used to run this experiment and thei
 |--------------|------|------|------|------|------|
 | Euclidean    | 87.0 | 88.6 | 96.1 | 95.4 | 96.0 |
 | Poincare     | 86.5 | 93.3 | 94.3 | 93.5 | 73.0 |
-| Lorentz      | 97.0 | 83.4 | 96.1 | 95.2 | 95.1 |
+| Lorentz      | 87.0 | 83.4 | 96.1 | 95.2 | 95.1 |
 
 ### Paper results
 F1 (macro) score and standard deviation on the synthetic graph dataset.
