@@ -12,7 +12,7 @@ lr: 0.01
 weight_decay: 0
 grad_clip: 1
 dropout: 0
-batch_size: 1
+batch_size: 32
 epochs: 80
 weight_init: 'xavier' # other option 'default' or empty
 
