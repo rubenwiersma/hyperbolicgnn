@@ -13,7 +13,7 @@ import torch
 from torch.utils.tensorboard import SummaryWriter
 
 from torch_geometric.loader import DataLoader
-from hgnn.transforms import OneHotDegree
+import torch_geometric.transforms as T
 from hgnn.datasets import SyntheticGraphs
 from hgnn.models import GraphClassification
 from hgnn.nn.manifold import EuclideanManifold, PoincareBallManifold, LorentzManifold
@@ -21,9 +21,12 @@ from hgnn.nn.manifold import EuclideanManifold, PoincareBallManifold, LorentzMan
 def train(args):
     # Create and load datasets
     dataset_root = osp.join(osp.dirname(osp.realpath(__file__)), 'data/SyntheticGraphs')
-    pre_transform = OneHotDegree(args.in_features - 1, sum_in_out_degree=True, cat=False)
-    train_dataset = SyntheticGraphs(dataset_root, split='train', pre_transform=pre_transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val,  num_test=args.num_test)
-    val_dataset = SyntheticGraphs(dataset_root, split='val', pre_transform=pre_transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val, num_test=args.num_test)
+    transform = T.Compose((
+        T.ToUndirected(),
+        T.OneHotDegree(args.in_features - 1, cat=False)
+    ))
+    train_dataset = SyntheticGraphs(dataset_root, split='train', transform=transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val,  num_test=args.num_test)
+    val_dataset = SyntheticGraphs(dataset_root, split='val', transform=transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val, num_test=args.num_test)
 
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=False)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, drop_last=False)
