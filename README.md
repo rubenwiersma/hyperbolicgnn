@@ -26,7 +26,7 @@ We set out to replicate the results in table 1 of [the paper](https://arxiv.org/
 The authors do not specify the architecture used to run this experiment and their published code uses two different architectures for the Euclidean manifold and the hyperbolic manifolds. We decided to use the same architecture for each manifold and base this architecture and the optimizer choices on the hyperbolic architectures in [their code](https://github.com/facebookresearch/hgnn/blob/master/params/SyntheticHyperbolicParams.py). We also use a different batch size from what the authors used: we use 32 graphs per batch, where the authors used 1 graph per batch. The larger batch size speeds up training and should give a better estimate of the loss per iteration.
 
 ### Our results
-F1 (macro) score. The results from the paper with standard deviation are listed between brackets.
+F1 (macro) score. The results with standard deviation from table 1 in the paper are listed between brackets.
 
 | Manifold\Dim | 3                | 5                | 10               | 20               | 256              |
 |--------------|------------------|------------------|------------------|------------------|------------------|
