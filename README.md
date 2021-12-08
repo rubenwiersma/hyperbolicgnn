@@ -56,4 +56,4 @@ We observe that the logarithmic and exponential map implementations could explai
 If we compare the results from Table 2 and Table 3, we could draw the same conclusion as the paper: hyperbolic geometries result in better accuracy on the synthetic dataset. However, we believe the results in Table 1 provide a fairer comparison, as we use the exact same architecture and optimizer for each setting. In that case, we were not able to replicate the findings of the paper.
 
 ## Credits
-Network architecture and manifold mappings based on [Hyperbolic GNN implementation by the authors](https://github.com/facebookresearch/hgnn). Transforms and dataset built on [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric).
+Network architecture, manifold mappings, and dataset generation based on [Hyperbolic GNN implementation by the authors](https://github.com/facebookresearch/hgnn).
