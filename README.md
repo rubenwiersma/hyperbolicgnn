@@ -42,14 +42,16 @@ F1 (macro) score on the synthetic graph dataset with authors' architecture for E
 |--------------|------------------|------------------|------------------|------------------|
 | Euclidean    | 88.0 (77.2±0.12) | 87.8 (90.0±0.21) | 95.0 (90.6±0.17) | 90.4 (94.8±0.25) |
 
-We also see a difference between our implementation on the hyperbolic settings with dimension 3 and 256. To study this difference, we retrained these settings with the exact implementation of the manifolds from the authors' code.
+We also see a difference between our implementation on the hyperbolic settings with dimension 3 and 256. To study this difference, we retrained these settings with the implementation of the logarithmic- and exponential-maps from the authors' code.
 
 F1 (macro) score on the synthetic graph dataset with authors' manifold implementation.
 
 | Manifold\Dim | 3                | 5                | 10               | 20               | 256              |
 |--------------|------------------|------------------|------------------|------------------|------------------|
-| Poincare     | - (93.0±0.05) | - (95.6±0.14) | - (95.9±0.14) | - (96.2±0.06) | - (93.7±0.05) |
-| Lorentz      | - (94.1±0.03) | - (95.1±0.25) | - (96.4±0.23) | - (96.6±0.22) | - (95.3±0.28) |
+| Poincare     | 91.3 (93.0±0.05) | 95.4 (95.6±0.14) | 95.9 (95.9±0.14) | 96.0 (96.2±0.06) | 65.6 (93.7±0.05) |
+| Lorentz      | 94.3 (94.1±0.03) | 95.8 (95.1±0.25) | 96.3 (96.4±0.23) | 95.4 (96.6±0.22) | 94.8 (95.3±0.28) |
+
+Concluding, we observe that the logarithmic and exponential map implementations could explain some of the variance in the observed results, although the problem with high dimensions in the Poincare embedding is still not solved. The different architecture used for the Euclidean setting does result in lower scores, but the relationship with the embedding size (dimensionality) is not the same as seen in the paper's results.   
 
 ## Credits
 Network architecture and manifold mappings based on [Hyperbolic GNN implementation by the authors](https://github.com/facebookresearch/hgnn). Transforms and dataset built on [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric).
