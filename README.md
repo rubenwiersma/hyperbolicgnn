@@ -42,6 +42,8 @@ Table 2: F1 (macro) score on the synthetic graph dataset with authors' architect
 |--------------|------------------|------------------|------------------|------------------|
 | Euclidean    | 88.0 (77.2±0.12) | 87.8 (90.0±0.21) | 95.0 (90.6±0.17) | 90.4 (94.8±0.25) |
 
+The different architecture used for the Euclidean setting results in lower scores, but the relationship with the embedding size (dimensionality) is not the same as seen in the paper's results: ours peaks at 10 dimensions, where the paper's Euclidean results increase steadily with the dimensionality.
+
 We also see a difference between our implementation on the hyperbolic settings with dimension 3 and 256. To find out if this difference is due to our implementation, we retrained these settings with the implementation of the logarithmic- and exponential-maps from the authors' code.
 
 Table 3: F1 (macro) score on the synthetic graph dataset with authors' manifold implementation.
@@ -51,7 +53,7 @@ Table 3: F1 (macro) score on the synthetic graph dataset with authors' manifold 
 | Poincare     | 91.3 (93.0±0.05) | 95.4 (95.6±0.14) | 95.9 (95.9±0.14) | 96.0 (96.2±0.06) | 65.6 (93.7±0.05) |
 | Lorentz      | 94.3 (94.1±0.03) | 95.8 (95.1±0.25) | 96.3 (96.4±0.23) | 95.4 (96.6±0.22) | 94.8 (95.3±0.28) |
 
-We observe that the logarithmic and exponential map implementations could explain some of the variance in the observed results, although the problem with high dimensions in the Poincare embedding is still not solved. The different architecture used for the Euclidean setting does result in lower scores, but the relationship with the embedding size (dimensionality) is not the same as seen in the paper's results: ours peaks at 10 dimensions, where the paper's Euclidean results increase steadily with the dimensionality.
+We observe that the logarithmic and exponential map implementations could explain some of the variance in the observed results for the lowest dimensionality, although the problem with high dimensions in the Poincare embedding is still not solved.
 
 If we compare the results from Table 2 and Table 3, we could draw the same conclusion as the paper: hyperbolic geometries result in better accuracy on the synthetic dataset. However, we believe the results in Table 1 provide a fairer comparison, as we use the exact same architecture and optimizer for each setting. In that case, we were not able to replicate the findings of the paper.
 
