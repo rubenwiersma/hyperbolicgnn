@@ -25,7 +25,7 @@ def test(args):
         T.ToUndirected(),
         T.OneHotDegree(args.in_features - 1, cat=False)
     ))
-    test_dataset = SyntheticGraphs(dataset_root, split='val', transform=transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val, num_test=args.num_test)
+    test_dataset = SyntheticGraphs(dataset_root, split='test', transform=transform, node_num=(args.node_num_min, args.node_num_max), num_train=args.num_train, num_val=args.num_val, num_test=args.num_test)
 
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, drop_last=False)
 
