@@ -63,10 +63,10 @@ def evaluate(args, model, data_loader):
         with torch.no_grad():
             pred = model(data).max(dim=1)[1]
         correct += pred.eq(data.y).sum().item()
-        pred_list.append(pred.cpu().item())
-        true_list.append(data.y.cpu().item())
+        pred_list.append(pred.cpu().numpy())
+        true_list.append(data.y.cpu().numpy())
     accuracy = correct / len(data_loader.dataset)
-    f1 = f1_score(true_list, pred_list, average="macro")
+    f1 = f1_score(np.concatenate(true_list), np.concatenate(pred_list), average="macro")
     return accuracy, f1
 
 
