@@ -55,7 +55,17 @@ Table 3: F1 (macro) score on the synthetic graph dataset with authors' manifold 
 
 We observe that the logarithmic and exponential map implementations could explain some of the variance in the observed results for the lowest dimensionality, although the problem with high dimensions in the Poincare embedding is still not solved.
 
-If we compare the results from Table 2 and Table 3, we could draw the same conclusion as the paper: hyperbolic geometries result in better accuracy on the synthetic dataset. However, we believe the results in Table 1 provide a fairer comparison, as we use the exact same architecture and optimizer for each setting. In that case, we were not able to replicate the findings of the paper.
+It could be that some datasets are skewed to favor one embedding over the other. To study the effect of the random data generation, we performed 10 iterations of data generation, training, and evaluation. We used a smaller dataset for this experiment to lower the computational cost (200 instead of 2000 graphs) and only test for an embedding size of 3. The architectures and training settings are the same for each embedding.
+
+Table 4: Average F1 (macro) score and standard deviation on the synthetic graph dataset over 10 random dataset generations and training rounds.
+
+| Manifold\Dim | 3         |
+|--------------|-----------|
+| Euclidean    | 84.4±1.35 |
+| Poincare     | 82.2±1.57 |
+| Lorentz      | 85.1±2.45 |
+
+If we compare the results from Table 2 and Table 3, we could draw the same conclusion as the paper: hyperbolic geometries result in better accuracy on the synthetic dataset. However, we believe the results in Table 1 and Table 4 provide a fairer comparison, as we use the exact same architecture and optimizer for each setting. In that case, we do not see a significant difference between Euclidean and hyperbolic embeddings for this dataset.
 
 ## Credits
 Network architecture, manifold mappings, and dataset generation based on [Hyperbolic GNN implementation by the authors](https://github.com/facebookresearch/hgnn).
