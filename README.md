@@ -42,7 +42,7 @@ Table 2: F1 (macro) score on the synthetic graph dataset with authors' architect
 |--------------|------------------|------------------|------------------|------------------|
 | Euclidean    | 88.0 (77.2±0.12) | 87.8 (90.0±0.21) | 95.0 (90.6±0.17) | 90.4 (94.8±0.25) |
 
-We also see a difference between our implementation on the hyperbolic settings with dimension 3 and 256. To study this difference, we retrained these settings with the implementation of the logarithmic- and exponential-maps from the authors' code.
+We also see a difference between our implementation on the hyperbolic settings with dimension 3 and 256. To find out if this difference is due to our implementation, we retrained these settings with the implementation of the logarithmic- and exponential-maps from the authors' code.
 
 Table 3: F1 (macro) score on the synthetic graph dataset with authors' manifold implementation.
 
