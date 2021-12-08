@@ -34,8 +34,10 @@ Table 1: F1 (macro) score on the synthetic graph dataset. The results with stand
 | Lorentz      | 90.3 (94.1±0.03) | 95.6 (95.1±0.25) | 95.4 (96.4±0.23) | 96.4 (96.6±0.22) | 95.8 (95.3±0.28) |
 
 ### Discussion
+For dimensions 5-20 in the hyperbolic embeddings, we find our results are comparable to the authors' published results. Our implementation has a higher F1 score in the Euclidean setting. So much so, that the Euclidean embedding is better than hyperbolic embeddings for most embedding sizes.
+
 #### Architecture differences
-For dimensions 5-20 in the hyperbolic embeddings, we find our results are comparable to the authors' published results. Our implementation has a higher F1 score in the Euclidean setting. So much so, that the Euclidean embedding is better than hyperbolic embeddings for most embedding sizes. An explanation for this difference could be that we use the same architecture for each embedding space, where the authors' implementation uses different architectures. It is unclear if these different architectures were also used for the results in the paper. To shed some light on this question, we re-trained the Euclidean setting with the architecture and configuration from the authors' code for the first four dimension sizes (see `experiments/configs/synth_euclidean_authors.yaml`).
+An explanation for this difference could be that we use the same architecture for each embedding space, where the authors' implementation uses different architectures. It is unclear if these different architectures were also used for the results in the paper. To shed some light on this question, we re-trained the Euclidean setting with the architecture and configuration from the authors' code for the first four dimension sizes (see `experiments/configs/synth_euclidean_authors.yaml`).
 
 Table 2: F1 (macro) score on the synthetic graph dataset with authors' architecture for Euclidean embedding.
 
