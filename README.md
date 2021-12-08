@@ -25,7 +25,7 @@ We set out to replicate the results in table 1 of [the paper](https://arxiv.org/
 
 The authors do not specify the architecture used to run this experiment and their published code uses two different architectures for the Euclidean manifold and the hyperbolic manifolds. We decided to use the same architecture for each manifold and base this architecture and the optimizer choices on the hyperbolic architectures in [their code](https://github.com/facebookresearch/hgnn/blob/master/params/SyntheticHyperbolicParams.py). We also use a different batch size from what the authors used: we use 32 graphs per batch, where the authors used 1 graph per batch. The larger batch size speeds up training and should give a better estimate of the loss per iteration.
 
-F1 (macro) score on the synthetic graph dataset. The results with standard deviation from table 1 in the paper are listed between brackets.
+Table 1: F1 (macro) score on the synthetic graph dataset. The results with standard deviation from table 1 in the paper are listed between brackets.
 
 | Manifold\Dim | 3                | 5                | 10               | 20               | 256              |
 |--------------|------------------|------------------|------------------|------------------|------------------|
@@ -36,7 +36,7 @@ F1 (macro) score on the synthetic graph dataset. The results with standard devia
 ### Discussion
 For dimensions 5-20 in the hyperbolic embeddings, we find our results are comparable to the authors' published results. Our implementation has a higher F1 score in the Euclidean setting. So much so, that the Euclidean embedding is better than hyperbolic embeddings for most embedding sizes. An explanation for this difference could be that we use the same architecture for each embedding space, where the authors' implementation uses different architectures. It is unclear if these different architectures were also used for the results in the paper. To shed some light on this question, we re-trained the Euclidean setting with the architecture and configuration from the authors' code (see `experiments/configs/synth_euclidean_authors.yaml`) for the first four dimension sizes (256 dimensions is very costly, especially with the different architecture).
 
-F1 (macro) score on the synthetic graph dataset with authors' architecture for Euclidean embedding.
+Table 2: F1 (macro) score on the synthetic graph dataset with authors' architecture for Euclidean embedding.
 
 | Manifold\Dim | 3                | 5                | 10               | 20               | 
 |--------------|------------------|------------------|------------------|------------------|
@@ -44,14 +44,16 @@ F1 (macro) score on the synthetic graph dataset with authors' architecture for E
 
 We also see a difference between our implementation on the hyperbolic settings with dimension 3 and 256. To study this difference, we retrained these settings with the implementation of the logarithmic- and exponential-maps from the authors' code.
 
-F1 (macro) score on the synthetic graph dataset with authors' manifold implementation.
+Table 3: F1 (macro) score on the synthetic graph dataset with authors' manifold implementation.
 
 | Manifold\Dim | 3                | 5                | 10               | 20               | 256              |
 |--------------|------------------|------------------|------------------|------------------|------------------|
 | Poincare     | 91.3 (93.0±0.05) | 95.4 (95.6±0.14) | 95.9 (95.9±0.14) | 96.0 (96.2±0.06) | 65.6 (93.7±0.05) |
 | Lorentz      | 94.3 (94.1±0.03) | 95.8 (95.1±0.25) | 96.3 (96.4±0.23) | 95.4 (96.6±0.22) | 94.8 (95.3±0.28) |
 
-Concluding, we observe that the logarithmic and exponential map implementations could explain some of the variance in the observed results, although the problem with high dimensions in the Poincare embedding is still not solved. The different architecture used for the Euclidean setting does result in lower scores, but the relationship with the embedding size (dimensionality) is not the same as seen in the paper's results.   
+We observe that the logarithmic and exponential map implementations could explain some of the variance in the observed results, although the problem with high dimensions in the Poincare embedding is still not solved. The different architecture used for the Euclidean setting does result in lower scores, but the relationship with the embedding size (dimensionality) is not the same as seen in the paper's results: ours peaks at 10 dimensions, where the paper's Euclidean results increase steadily with the dimensionality.
+
+If we compare the results from Table 2 and Table 3, we could draw the same conclusion as the paper: hyperbolic geometries result in better accuracy on the synthetic dataset. However, we believe the results in Table 1 provide a fairer comparison, as we use the exact same architecture and optimizer for each setting. In that case, we were not able to replicate the findings of the paper.
 
 ## Credits
 Network architecture and manifold mappings based on [Hyperbolic GNN implementation by the authors](https://github.com/facebookresearch/hgnn). Transforms and dataset built on [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric).
