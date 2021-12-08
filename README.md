@@ -6,18 +6,18 @@ Replication of [Hyperbolic Graph Neural Networks by Liu, Nickel and Kiela](https
 First install [PyTorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html) by following the installation instructions for each:
 
 You can install the hgnn package either in your python environment:
-```
-$ pip install ./
+```bash
+pip install ./
 ```
 or in the current folder with the `-e` flag specified.
 
 ## How to run
-```
-$ python experiments/train_synthetic.py`
+```bash
+python experiments/train_synthetic.py
 ```
 To run all experiments for Table 1 in the paper, run
-```
-$ sh experiments/table_1.sh
+```bash
+sh experiments/table_1.sh
 ```
 
 ## Replication results
