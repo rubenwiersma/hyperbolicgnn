@@ -66,9 +66,9 @@ Table 4: Average F1 (macro) score and standard deviation on the synthetic graph 
 
 | Manifold\Dim | 3         |
 |--------------|-----------|
-| Euclidean    | 84.4±1.35 |
-| Poincare     | 82.2±1.57 |
-| Lorentz      | 85.1±2.45 |
+| Euclidean    | 83.5±1.60 |
+| Poincare     | 81.6±2.77 |
+| Lorentz      | 86.5±1.92 |
 
 ### Conclusion
 
