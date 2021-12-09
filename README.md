@@ -41,9 +41,9 @@ An explanation for this difference could be that we use the same architecture fo
 
 Table 2: F1 (macro) score on the synthetic graph dataset with authors' architecture for Euclidean embedding.
 
-| Manifold\Dim | 3                | 5                | 10               | 20               | 
-|--------------|------------------|------------------|------------------|------------------|
-| Euclidean    | 88.0 (77.2±0.12) | 87.8 (90.0±0.21) | 95.0 (90.6±0.17) | 90.4 (94.8±0.25) |
+| Manifold\Dim | 3                | 5                | 10               |
+|--------------|------------------|------------------|------------------|
+| Euclidean    | 84.4 (77.2±0.12) | 85.6 (90.0±0.21) | 95.0 (90.6±0.17) |
 
 The different architecture used for the Euclidean setting results in lower scores. If we were to compare these results to the hyperbolic results in Table 1, we would draw the same conclusion as the paper: hyperbolic embeddings result in higher f1 scores on this task. It could be that this explains the difference between the paper and our replication results.
 
