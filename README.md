@@ -29,21 +29,21 @@ Table 1: F1 (macro) score on the synthetic graph dataset. The results with stand
 
 | Manifold\Dim | 3                | 5                | 10               | 20               | 256              |
 |--------------|------------------|------------------|------------------|------------------|------------------|
-| Euclidean    | 95.1 (77.2±0.12) | 95.4 (90.0±0.21) | 96.4 (90.6±0.17) | 95.6 (94.8±0.25) | 95.8 (95.3±0.17) |
-| Poincare     | 89.9 (93.0±0.05) | 94.9 (95.6±0.14) | 95.3 (95.9±0.14) | 96.1 (96.2±0.06) | 46.3 (93.7±0.05) |
-| Lorentz      | 90.3 (94.1±0.03) | 95.6 (95.1±0.25) | 95.4 (96.4±0.23) | 96.4 (96.6±0.22) | 95.8 (95.3±0.28) |
+| Euclidean    | 93.5 (77.2±0.12) | 94.7 (90.0±0.21) | 95.0 (90.6±0.17) | 95.3 (94.8±0.25) | 95.2 (95.3±0.17) |
+| Poincare     | 95.8 (93.0±0.05) | 92.2 (95.6±0.14) | 94.8 (95.9±0.14) | 87.9 (96.2±0.06) | 87.1 (93.7±0.05) |
+| Lorentz      | 93.4 (94.1±0.03) | 95.9 (95.1±0.25) | 95.2 (96.4±0.23) | 95.3 (96.6±0.22) | 95.2 (95.3±0.28) |
 
 ### Discussion
 For dimensions 5-20 in the hyperbolic embeddings, we find our results are comparable to the authors' published results. Our implementation has a higher F1 score in the Euclidean setting. So much so, that the Euclidean embedding is better than hyperbolic embeddings for most embedding sizes.
 
 #### Architecture differences
-An explanation for this difference could be that we use the same architecture for each embedding space, where the authors' implementation uses different architectures. It is unclear if these different architectures were also used for the results in the paper. To shed some light on this question, we re-trained the Euclidean setting with the architecture and configuration from the authors' code for the first four dimension sizes (see `experiments/configs/synth_euclidean_authors.yaml`).
+An explanation for this difference could be that we use the same architecture for each embedding space, where the authors' implementation uses different architectures. It is unclear if these different architectures were also used for the results in the paper. To shed some light on this question, we re-trained the Euclidean setting with the architecture and configuration from the authors' code for the first three dimension sizes, as we observed the largest differences there (see `experiments/configs/synth_euclidean_authors.yaml`).
 
 Table 2: F1 (macro) score on the synthetic graph dataset with authors' architecture for Euclidean embedding.
 
-| Manifold\Dim | 3                | 5                | 10               | 20               | 
-|--------------|------------------|------------------|------------------|------------------|
-| Euclidean    | 88.0 (77.2±0.12) | 87.8 (90.0±0.21) | 95.0 (90.6±0.17) | 90.4 (94.8±0.25) |
+| Manifold\Dim | 3                | 5                | 10               |
+|--------------|------------------|------------------|------------------|
+| Euclidean    | 88.0 (77.2±0.12) | 87.8 (90.0±0.21) | 95.0 (90.6±0.17) |
 
 The different architecture used for the Euclidean setting results in lower scores. If we were to compare these results to the hyperbolic results in Table 1, we would draw the same conclusion as the paper: hyperbolic embeddings result in higher f1 scores on this task. It could be that this explains the difference between the paper and our replication results.
 
