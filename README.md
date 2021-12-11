@@ -3,7 +3,7 @@
 Replication of [Hyperbolic Graph Neural Networks by Liu, Nickel and Kiela](https://arxiv.org/pdf/1910.12892.pdf) for Efficient Deep Learning winterschool 2021.
 
 ## Installation
-First install [PyTorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html) by following the installation instructions for each:
+First install [PyTorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html) by following the installation instructions for each.
 
 You can install the hgnn package either in your python environment:
 ```bash
@@ -43,7 +43,7 @@ Table 2: F1 (macro) score on the synthetic graph dataset with authors' architect
 
 | Manifold\Dim | 3                | 5                | 10               |
 |--------------|------------------|------------------|------------------|
-| Euclidean    | 88.0 (77.2±0.12) | 87.8 (90.0±0.21) | 95.0 (90.6±0.17) |
+| Euclidean    | 84.4 (77.2±0.12) | 85.6 (90.0±0.21) | 90.0 (90.6±0.17) |
 
 The different architecture used for the Euclidean setting results in lower scores. If we were to compare these results to the hyperbolic results in Table 1, we would draw the same conclusion as the paper: hyperbolic embeddings result in higher f1 scores on this task. It could be that this explains the difference between the paper and our replication results.
 
@@ -54,8 +54,8 @@ Table 3: F1 (macro) score on the synthetic graph dataset with authors' manifold 
 
 | Manifold\Dim | 3                | 5                | 10               | 20               | 256              |
 |--------------|------------------|------------------|------------------|------------------|------------------|
-| Poincare     | 91.3 (93.0±0.05) | 95.4 (95.6±0.14) | 95.9 (95.9±0.14) | 96.0 (96.2±0.06) | 65.6 (93.7±0.05) |
-| Lorentz      | 94.3 (94.1±0.03) | 95.8 (95.1±0.25) | 96.3 (96.4±0.23) | 95.4 (96.6±0.22) | 94.8 (95.3±0.28) |
+| Poincare     | 91.4 (93.0±0.05) | 94.4 (95.6±0.14) | 95.4 (95.9±0.14) | 94.0 (96.2±0.06) | 62.5 (93.7±0.05) |
+| Lorentz      | 92.9 (94.1±0.03) | 94.7 (95.1±0.25) | 96.1 (96.4±0.23) | 95.5 (96.6±0.22) | 95.5 (95.3±0.28) |
 
 We observe that the logarithmic and exponential map implementations could explain some of the variance in the observed results for the lowest dimensionality, although the problem with high dimensions in the Poincare embedding is still not solved.
 
