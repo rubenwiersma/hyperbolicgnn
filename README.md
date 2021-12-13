@@ -34,7 +34,7 @@ Table 1: F1 (macro) score on the synthetic graph dataset. The results with stand
 | Lorentz      | 93.4 (94.1±0.03) | 95.9 (95.1±0.25) | 95.2 (96.4±0.23) | 95.3 (96.6±0.22) | 95.2 (95.3±0.28) |
 
 ### Discussion
-For dimensions 5-20 in the hyperbolic embeddings, we find our results are comparable to the authors' published results. Our implementation has a higher F1 score in the Euclidean setting. So much so, that the Euclidean embedding is better than hyperbolic embeddings for most embedding sizes.
+For dimensions 5-20 in the hyperbolic embeddings, we find our results are comparable to the authors' published results. Our implementation has a higher F1 score in the Euclidean setting. So much so, that the Euclidean embedding is very close to the hyperbolic embeddings for most embedding sizes.
 
 #### Architecture differences
 An explanation for this difference could be that we use the same architecture for each embedding space, where the authors' implementation uses different architectures. It is unclear if these different architectures were also used for the results in the paper. To shed some light on this question, we re-trained the Euclidean setting with the architecture and configuration from the authors' code for the first three dimension sizes, as we observed the largest differences there (see `experiments/configs/synth_euclidean_authors.yaml`).
@@ -69,10 +69,6 @@ Table 4: Average F1 (macro) score and standard deviation on the synthetic graph 
 | Euclidean    | 83.5±1.60 |
 | Poincare     | 81.6±2.77 |
 | Lorentz      | 86.5±1.92 |
-
-### Conclusion
-
-If we compare the results from Table 2 and Table 3, we could draw the same conclusion as the paper: hyperbolic geometries result in better accuracy on the synthetic dataset. However, we believe the results in Table 1 and Table 4 provide a fairer comparison, as we use the exact same architecture and optimizer for each setting. In that case, we do not see a significant difference between Euclidean and hyperbolic embeddings for this dataset.
 
 ## Credits
 Network architecture, manifold mappings, and dataset generation based on [Hyperbolic GNN implementation by the authors](https://github.com/facebookresearch/hgnn).
